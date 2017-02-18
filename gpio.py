@@ -16,16 +16,20 @@ REMOTE_CLUSTER = 'http://54.193.3.192:8082/topics/topic1'
 PRODUCE_PAYLOAD= """'{"records":[{"key":"Sarjeet", "value":"12M"}]}'"""
 PRODUCE = CLUSTER_HEADER + '--data '+ PRODUCE_PAYLOAD + ' ' + REMOTE_CLUSTER
 
-#setup GPIO using BCM numbering
+#------Continuous monitor while True: 
+
+#----setup GPIO using BCM numbering
 GPIO.setmode(GPIO.BCM)
 
-#set pin number 16 (GPIO23) set as input pin 
+#----set pin number 16 (GPIO23) set as input pin 
 GPIO.setup(23, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
 
-#check if pin has high voltage
+#----check if pin has high voltage
 input_high = 'Input high!'
 input_low = 'Input low'
 i = 0
+
+#----detect vibration while loop
 while i < 5:  
 	GPIO.wait_for_edge(23, GPIO.RISING)
 	print i
@@ -34,6 +38,7 @@ while i < 5:
 	GPIO.wait_for_edge(23, GPIO.FALLING)
 	print input_low
 	
+#-----ring the bell	
 legit_event = 'Legit event, Ring the Bell!'
 print legit_event
 os.system(BELL_PLAY);
@@ -56,3 +61,5 @@ subprocess.call([
 #os.system(PRODUCE)
 
 GPIO.cleanup();
+
+#-------Continuous monitor end of while
