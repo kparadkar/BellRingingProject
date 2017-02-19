@@ -1,0 +1,76 @@
+<component name="ArtifactManager">
+  <artifact type="war" build-on-make="true" name="bell-project:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/bell_project_war_exploded</output-path>
+    <root id="archive" name="bell-project_war exploded.war">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="bell-project" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: com.mapr.streams:mapr-streams:5.2.0-mapr" />
+          <element id="library" level="project" name="Maven: org.apache.hadoop:hadoop-common:2.7.0-mapr-1607" />
+          <element id="library" level="project" name="Maven: org.apache.hadoop:hadoop-annotations:2.7.0-mapr-1607" />
+          <element id="library" level="module" name="Maven: jdk.tools:jdk.tools:1.8" module-name="bell-project" />
+          <element id="library" level="project" name="Maven: com.google.guava:guava:14.0.1" />
+          <element id="library" level="project" name="Maven: commons-cli:commons-cli:1.2" />
+          <element id="library" level="project" name="Maven: org.apache.commons:commons-math3:3.1.1" />
+          <element id="library" level="project" name="Maven: xmlenc:xmlenc:0.52" />
+          <element id="library" level="project" name="Maven: commons-httpclient:commons-httpclient:3.1" />
+          <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.4" />
+          <element id="library" level="project" name="Maven: commons-io:commons-io:2.4" />
+          <element id="library" level="project" name="Maven: commons-net:commons-net:3.1" />
+          <element id="library" level="project" name="Maven: commons-collections:commons-collections:3.2.2" />
+          <element id="library" level="project" name="Maven: log4j:log4j:1.2.17" />
+          <element id="library" level="project" name="Maven: commons-lang:commons-lang:2.6" />
+          <element id="library" level="project" name="Maven: commons-configuration:commons-configuration:1.6" />
+          <element id="library" level="project" name="Maven: commons-digester:commons-digester:1.8" />
+          <element id="library" level="project" name="Maven: commons-beanutils:commons-beanutils:1.7.0" />
+          <element id="library" level="project" name="Maven: commons-beanutils:commons-beanutils-core:1.8.0" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-log4j12:1.7.10" />
+          <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-core-asl:1.9.13" />
+          <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.9.13" />
+          <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:2.5.0" />
+          <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.2.4" />
+          <element id="library" level="project" name="Maven: org.apache.hadoop:hadoop-auth:2.7.0-mapr-1607" />
+          <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpclient:4.2.5" />
+          <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpcore:4.2.4" />
+          <element id="library" level="project" name="Maven: org.apache.directory.server:apacheds-kerberos-codec:2.0.0-M15" />
+          <element id="library" level="project" name="Maven: org.apache.directory.server:apacheds-i18n:2.0.0-M15" />
+          <element id="library" level="project" name="Maven: org.apache.directory.api:api-asn1-api:1.0.0-M20" />
+          <element id="library" level="project" name="Maven: org.apache.directory.api:api-util:1.0.0-M20" />
+          <element id="library" level="project" name="Maven: org.apache.curator:curator-framework:2.7.1" />
+          <element id="library" level="project" name="Maven: org.apache.curator:curator-client:2.7.1" />
+          <element id="library" level="project" name="Maven: org.apache.curator:curator-recipes:2.7.1" />
+          <element id="library" level="project" name="Maven: org.apache.htrace:htrace-core:3.1.0-incubating" />
+          <element id="library" level="project" name="Maven: org.apache.zookeeper:zookeeper:3.4.5-mapr-1503" />
+          <element id="library" level="project" name="Maven: org.apache.commons:commons-compress:1.4.1" />
+          <element id="library" level="project" name="Maven: org.tukaani:xz:1.0" />
+          <element id="library" level="project" name="Maven: com.mapr.hadoop:maprfs:5.2.0-mapr" />
+          <element id="library" level="project" name="Maven: org.json:json:20080701" />
+          <element id="library" level="project" name="Maven: xerces:xercesImpl:2.9.1" />
+          <element id="library" level="project" name="Maven: xml-apis:xml-apis:1.3.04" />
+          <element id="library" level="project" name="Maven: xalan:xalan:2.7.1" />
+          <element id="library" level="project" name="Maven: xalan:serializer:2.7.1" />
+          <element id="library" level="project" name="Maven: org.yaml:snakeyaml:1.14" />
+          <element id="library" level="project" name="Maven: org.ojai:ojai:1.1" />
+          <element id="library" level="project" name="Maven: org.antlr:antlr4-runtime:4.5" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.7.1" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.7.1" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.7.1" />
+          <element id="library" level="project" name="Maven: com.mapr.db:maprdb:5.2.0-mapr" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.12" />
+          <element id="library" level="project" name="Maven: org.apache.kafka:kafka-clients:0.9.0.0-mapr-1607" />
+          <element id="library" level="project" name="Maven: org.xerial.snappy:snappy-java:1.1.1.7" />
+          <element id="library" level="project" name="Maven: net.jpountz.lz4:lz4:1.2.0" />
+          <element id="library" level="project" name="Maven: com.sun.jersey:jersey-bundle:1.18.3" />
+          <element id="library" level="project" name="Maven: javax.ws.rs:jsr311-api:1.1.1" />
+        </element>
+      </element>
+      <element id="javaee-facet-resources" facet="bell-project/web/Web" />
+      <element id="javaee-facet-resources" facet="bell-project/web/Web" />
+    </root>
+  </artifact>
+</component>
