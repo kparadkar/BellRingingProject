@@ -2,6 +2,7 @@ import httplib2
 import socket
 import time
 import smtplib
+import base64
 from email.mime.text import MIMEText
 import os
 import json
@@ -20,23 +21,18 @@ def send_email(body):
     deals = []
     size = 0
     for item in body_json:
-        costumers.append (item["key"])
-        deals.append (iitem["value"])
+        costumers.append (base64.b64decode((item["key"])))
+        deals.append (base64.b64decode((item["value"])))
         size += 1
-
-    # Print opening HTML tags -------------------------
-    html = """\
-    <html>
-    <body>
-    <table>
+    
+    text = ""
     for i in range(0, size):
-        print "<tr><td>"+customers[i]+"</td><td>"+deals[i]+"</td></tr>"
-    </table>
-    </body>
-    </html>
-    """
+        text = text + "Customer name: " + costumers[i] + "\n"
+        text = text + "Deal size: " + deals[i] + "\n"
 
-    text_msg = MIMEText(html, 'html')
+    print text
+
+    text_msg = MIMEText(text, 'plain')
 
     me = "maprbell2017@gmail.com"
     you = "sarjeetsingh@maprtech.com"
@@ -75,14 +71,14 @@ CONSUMER_DELETE_URL = URL + "/consumers/" + GROUP + "/instances/" + CONSUMER
 CONSUMER_CONSUME_URL = URL + "/consumers/" + GROUP + "/instances/" + CONSUMER + "/topics/" + TOPIC
 
 # Delete consumer instance if exists already
-h = httplib2.Http()
-resp, content = h.request(CONSUMER_DELETE_URL, method="DELETE")
-print resp.status, content
+#h = httplib2.Http()
+#resp, content = h.request(CONSUMER_DELETE_URL, method="DELETE")
+#print resp.status, content
 
 # Create new instance of consumer
 CONSUMER_POST_DATA = {}
 CONSUMER_POST_DATA["name"] = CONSUMER
-CONSUMER_POST_DATA["format"] = "json"
+CONSUMER_POST_DATA["format"] = "binary"
 CONSUMER_POST_DATA["auto.offset.reset"] = "earliest"
 json_data = json.dumps(CONSUMER_POST_DATA)
 
@@ -95,12 +91,12 @@ print resp.status, content
 # Start consumer
 print CONSUMER_CONSUME_URL
 headers1 = {}
-headers1["Accept"] = "application/vnd.kafka.json.v1+json"
+headers1["Accept"] = "application/vnd.kafka.binary.v1+json"
 h = httplib2.Http()
 while(True):
     resp, content = h.request(CONSUMER_CONSUME_URL, method="GET", headers=headers1)
     print resp, content
     if len(content) > 2:    # length=2 is []
-        body = content[1:len(content)-1]
-        send_email(body)
+        #body = content[1:len(content)-1]
+        send_email(content)
     time.sleep(2) # Wait 2 sec before consuming

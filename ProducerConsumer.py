@@ -59,35 +59,22 @@ def send_email(body):
     print "Configure email with body:" + body
 
     body_json=json.loads(body)
+    costumers = []
+    deals = []
+    size = 0
+    for item in body_json:
+        costumers.append (base64.b64decode((item["key"])))
+        deals.append (base64.b64decode((item["value"])))
+        size += 1
+    
+    text = ""
+    for i in range(0, size):
+        text = text + "Customer name: " + costumers[i] + "\n"
+        text = text + "Deal size: " + deals[i] + "\n"
 
-    # Pick the last notification if there are multiple
-    body_json = body_json[len(body_json)-1]
+    print text
 
-    customer_name = base64.b64decode(body_json["key"])
-    deal_size = base64.b64decode(body_json["value"])
-
-    msg = "Customer Name: " + customer_name
-    msg += "\n Deal Size: " + deal_size
-
-    html = """\
-    <html>
-      <head></head>
-      <body>
-        <p>Hello,<br>
-           How are you?<br>
-           Here is the update for the latest customer deal:
-           <br><br>
-           <p> Customer Name: """ + customer_name + """</p>
-           <p> Deal Size: """ + deal_size + """</p>
-           <br>
-           Thanks,<br>
-           Bell-Project team
-        </p>
-      </body>
-    </html>
-    """
-
-    text_msg = MIMEText(html, 'html')
+    text_msg = MIMEText(text, 'plain')
 
     me = "maprbell2017@gmail.com"
     you = "sarjeetsingh@maprtech.com"
@@ -210,8 +197,8 @@ WAIT_TIME_MS = 10 * 60 * 1000 # 10 Min
 if(consumer):
 
     # Delete consumer instances (json/binary) if exists already
-    delete_consumer_instances(CONSUMER_BELL_BINARY)
-    delete_consumer_instances(CONSUMER_RECORD_BINARY)
+    #delete_consumer_instances(CONSUMER_BELL_BINARY)
+    #delete_consumer_instances(CONSUMER_RECORD_BINARY)
 
     # Create new instance of consumer
     create_consumer_binary(CONSUMER_BELL_BINARY)
