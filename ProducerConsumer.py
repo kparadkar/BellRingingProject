@@ -6,6 +6,12 @@ import smtplib
 from email.mime.text import MIMEText
 import json
 import sys
+import os
+import subprocess
+from email.MIMEMultipart import MIMEMultipart
+from email.MIMEText import MIMEText
+from email.MIMEImage import MIMEImage
+import datetime
 
 if(len(sys.argv) < 3):
     print "Please provide argument : producer/consumer and Kafka REST server ip."
@@ -50,8 +56,27 @@ CONSUMER_CONSUME_BELL_URL = URL + "/consumers/" + GROUP + "/instances/" + CONSUM
 def send_bell_notification():
   BELL_PLAYER = 'omxplayer'
   BELL_MP3 = 'bell-ring-01.mp3'
-  BELL_PLAY = BELL_PLAYER + ' -o alma ' + BELL_MP3
-  os.system(BELL_PLAY);
+  #BELL_PLAY = BELL_PLAYER + ' -o alsa ' + BELL_MP3 + '&'
+  BELL_PLAY = BELL_PLAYER + ' -o local ' + BELL_MP3 + '&'
+  subprocess.Popen([BELL_PLAYER,
+                  '-o',
+                  'alsa',
+                  BELL_MP3])
+ # os.system(BELL_PLAY);
+
+# method to get greet message
+def get_greeting_msg():
+
+    currentTime = datetime.datetime.now()
+    print "Current hour: ", currentTime.hour
+
+    if currentTime.hour < 12:
+        return 'Good Morning,'
+    elif 12 <= currentTime.hour < 18:
+        return 'Good Afternoon,'
+    else:
+        return 'Good Evening,'
+
 
 # Email method for sending email
 def send_email(body):
@@ -63,8 +88,15 @@ def send_email(body):
     deals = []
     size = 0
     for item in body_json:
-        costumers.append (base64.b64decode((item["key"])))
-        deals.append (base64.b64decode((item["value"])))
+        customer = base64.b64decode((item["key"]))
+        if customer.startswith('"') and customer.endswith('"'):
+            customer = customer[1:-1]
+        costumers.append(customer)
+
+        deal = base64.b64decode((item["value"]))
+        if deal.startswith('"') and deal.endswith('"'):
+            deal = deal[1:-1]
+        deals.append(deal)
         size += 1
     
     text = ""
@@ -72,16 +104,59 @@ def send_email(body):
         text = text + "Customer name: " + costumers[i] + "\n"
         text = text + "Deal size: " + deals[i] + "\n"
 
-    print text
-
-    text_msg = MIMEText(text, 'plain')
-
+    # Above text in table format
+    table_text = ""
+    for i in range(0, size):
+        table_text += "<tr>"
+        table_text += "<td width='50%'>" + costumers[i] + "</td>"
+        table_text += "<td width='50%'>" + deals[i] + "</td>"
+        table_text += "</tr>"
+        
     me = "maprbell2017@gmail.com"
-    you = "sarjeetsingh@maprtech.com"
+    recipients = ['sarjeetsingh@mapr.com', 'kparadkar@mapr.com', 'mkaseebhotla@mapr.com']
 
-    text_msg['Subject'] = 'Bell Project deal notification'
-    text_msg['From'] = me
-    text_msg['To'] = you
+    msg = MIMEMultipart('related')
+    msg['Subject'] = 'Bell Project deal notification'
+    msg['From'] = me
+    msg['To'] = ", ".join(recipients)
+
+    # Encapsulate the plain and HTML versions of the message body in an
+    # 'alternative' part, so message agents can decide which they want to display.
+    msgAlternative = MIMEMultipart('alternative')
+    msg.attach(msgAlternative)
+
+    msgText = MIMEText(text)
+    msgAlternative.attach(msgText)
+
+
+    ##### Image text
+    greetMsg = get_greeting_msg()
+    image_txt = \
+    '''
+    <b>''' + greetMsg + ''' </b><br><br><img src="cid:image1"><br><br><br>
+    <b> Here is the latest customer deal: </b><br><br>
+    <table border="1" style="width:80%">
+    <tr>
+    <th>Customer name</th>
+    <th>Deal Size</th>
+    </tr>
+    <p> ''' + table_text  + ''' </p>
+    </table><br>
+    <p> Thanks, <br>Bell-project team!<br>
+    '''
+
+    # We reference the image in the IMG SRC attribute by the ID we give it below
+    msgText = MIMEText(image_txt, 'html')
+    msgAlternative.attach(msgText)
+
+    # Assume the image is in the current directory
+    fp = open('bell.png', 'rb')
+    msgImage = MIMEImage(fp.read())
+    fp.close()
+
+    # Define the image's ID as referenced above
+    msgImage.add_header('Content-ID', 'image1')
+    msg.attach(msgImage)
 
     # Send the message via our own SMTP server, but don't include the
     # envelope header.
@@ -95,7 +170,7 @@ def send_email(body):
     s.login(USER, PASSWD)
     #s.set_debuglevel(True)
     try:
-        s.sendmail(me, [you], text_msg.as_string())
+        s.sendmail(me, recipients, msg.as_string())
     finally:
         s.quit()
 
@@ -238,5 +313,7 @@ if(consumer):
                               break
                          else:
                               time.sleep(2)
+        else:
+            print "\nWaiting for Bell notification."
 
         time.sleep(2)  # Wait 2 sec before consuming
