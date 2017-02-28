@@ -55,7 +55,7 @@ CONSUMER_CONSUME_BELL_URL = URL + "/consumers/" + GROUP + "/instances/" + CONSUM
 # Send Bell notification
 def send_bell_notification():
   BELL_PLAYER = 'omxplayer'
-  BELL_MP3 = 'bell-ring-01.mp3'
+  BELL_MP3 = '/home/pi/Bell-Project/BellRingingProject/bell-ring-01.mp3'
   #BELL_PLAY = BELL_PLAYER + ' -o alsa ' + BELL_MP3 + '&'
   BELL_PLAY = BELL_PLAYER + ' -o local ' + BELL_MP3 + '&'
   subprocess.Popen([BELL_PLAYER,
@@ -150,7 +150,7 @@ def send_email(body):
     msgAlternative.attach(msgText)
 
     # Assume the image is in the current directory
-    fp = open('bell.png', 'rb')
+    fp = open('/home/pi/Bell-Project/BellRingingProject/bell.png', 'rb')
     msgImage = MIMEImage(fp.read())
     fp.close()
 
