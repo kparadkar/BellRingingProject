@@ -286,8 +286,8 @@ if(consumer):
     h = httplib2.Http()
     while (True):
         resp_bell, content_bell = h.request(CONSUMER_CONSUME_BELL_URL, method="GET", headers=headers1)
-        print resp_bell, content_bell
         if len(content_bell) > 2:
+            print resp_bell, content_bell
             # Bell notification present
             resp_record, content_record = h.request(CONSUMER_CONSUME_RECORD_URL, method="GET", headers=headers1)
             print resp_record, content_record
