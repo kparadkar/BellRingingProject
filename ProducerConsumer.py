@@ -7,12 +7,13 @@ from email.mime.text import MIMEText
 import json
 import sys
 
-if(len(sys.argv) < 2):
-    print "Please provide argument : producer/consumer"
+if(len(sys.argv) < 3):
+    print "Please provide argument : producer/consumer and Kafka REST server ip."
     exit(1)
 
 # producer/consumer
 type = sys.argv[1]
+REST_SERVER = sys.argv[2]
 
 # Enable producer/consumer
 producer=False
@@ -27,7 +28,8 @@ else:
     print "Only producer and consumer arguments supported"
     exit(1)
 
-URL = "http://10.10.104.46:8082"
+
+URL = "http://" + REST_SERVER + ":8082"
 TOPIC = "notify"
 BELL_TOPIC = "bellNotify"
 
@@ -182,7 +184,7 @@ if(producer):
           # do not consider random sparse vibrations
           # wait 15secs for consecutive 5 vibrations
           diff = 15000
-          while (i < 5 or diff > time.time() - start):  
+          while ((i < 5) and (time.time() - start <= diff)):
               GPIO.wait_for_edge(23, GPIO.RISING)
               print i
               i = i + 1
