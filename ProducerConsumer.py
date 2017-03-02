@@ -194,6 +194,7 @@ def create_consumer_binary(consumer_name):
     CONSUMER_POST_DATA["name"] = consumer_name
     CONSUMER_POST_DATA["format"] = "binary"
     CONSUMER_POST_DATA["auto.offset.reset"] = "earliest"
+    CONSUMER_POST_DATA["enable.auto.commit"] = "true"
     json_data = json.dumps(CONSUMER_POST_DATA)
 
     headers = {}
