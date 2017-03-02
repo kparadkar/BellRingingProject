@@ -307,6 +307,7 @@ if(consumer):
                     wait_start = time.time()
                     # Wait for 10 mins for record to appear or discard notification
                     while (time.time() - wait_start < WAIT_TIME_MS):
+                         resp_bell_sparse, content_bell_sparse = h.request(CONSUMER_CONSUME_BELL_URL, method="GET", headers=headers1)
                          resp_record, content_record = h.request(CONSUMER_CONSUME_RECORD_URL, method="GET", headers=headers1)
                          if len(content_record) > 2:
                               # Record occured within WAIT_TIME_MS
